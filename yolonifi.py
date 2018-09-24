@@ -27,9 +27,10 @@ import time
 import psutil
 import paho.mqtt.client as mqtt
 import scipy.misc
+from json_tricks import dump, dumps, load, loads, strip_comments
 from time import gmtime, strftime
 start = time.time()
-cap = cv2.VideoCapture(0)   # 0 - laptop   #1 - monitor
+cap = cv2.VideoCapture(1)   # 0 - laptop   #1 - monitor  #2 external cam
 ret, frame = cap.read()
 uuid = '{0}_{1}'.format(strftime("%Y%m%d%H%M%S",gmtime()),uuid.uuid4())
 filename = 'images/gluoncv_image_{0}.jpg'.format(uuid)
@@ -73,7 +74,7 @@ net = model_zoo.get_model('yolo3_darknet53_voc', pretrained=True)
 #                          'mxnet-ssd/master/data/demo/dog.jpg',
 #                          path='dog.jpg')
 x, img = data.transforms.presets.yolo.load_test(filename, short=512)
-print('Shape of pre-processed image:', x.shape)
+#print('Shape of pre-processed image:', x.shape)
 
 ######################################################################
 # Inference and display
@@ -94,9 +95,19 @@ ax = utils.viz.plot_bbox(img, bounding_boxs[0], scores[0], class_IDs[0], class_n
 
 plt.savefig(filename2)
 
+#print(topn[0][1])
+#     top1pct = str(round(topn[0][0],3) * 100)
+
+#print(net.classes[0])
+#print(net.classes[1])
 #print(scores[0])
 #print(class_IDs[0])
 #print(bounding_boxs[0])
+print(class_IDs[0][0])
+print(scores[0][0])
+print(bounding_boxs[0][0])
+print(net.classes[14])
+#print(dumps(net.classes))
 
 end = time.time()
 row = { }
