@@ -103,17 +103,34 @@ plt.savefig(filename2)
 #print(scores[0])
 #print(class_IDs[0])
 #print(bounding_boxs[0])
-print( '{:1f}%'.format(class_IDs[0][0][0]) ) 
-print(str(class_IDs[0][0][0]))
-print(str(scores[0][0][0]))
-print(str(bounding_boxs[0][0][0]))
+#print( '{:1s}'.format(str(class_IDs.item()))) 
+#print(str(class_IDs[0][0][0]))
+#print(str(scores[0][0][0]))
+#print(str(bounding_boxs[0][0][0]))
 #print(net.classes[14])
 #print(dumps(net.classes))
+#print( class_IDs.shape)
+#print( class_IDs.size )
+classname = str(class_IDs[0,0,0][0]).strip('<NDArray 1 @cpu(0)>') 
+classname = classname.strip('\n[')
+classname = classname.strip('.]\n')
+classname = int(classname)
+#print(net.classes[classname])
+
+matchingpct = str(scores[0][0][0]).strip('<NDArray 1 @cpu(0)>') 
+matchingpct = matchingpct.strip('\n[')
+matchingpct = matchingpct.strip('.]\n')
+matchingpct = float(matchingpct)
+
+#print((matchingpct) * 100)
+
 
 end = time.time()
 row = { }
 row['imgname'] = filename
 row['imgnamep'] = filename2
+row['class1'] = str(net.classes[classname])
+row['pct1'] = '{0}'.format( str((matchingpct) * 100))
 row['host'] = os.uname()[1]
 row['shape'] = str(x.shape)
 row['end'] = '{0}'.format( str(end ))
